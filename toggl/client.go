@@ -36,6 +36,14 @@ type TogglClient struct {
 	workspace string
 }
 
+type ErrorResponse struct {
+    Error struct {
+        Message string `json:"message"`
+        Tip string `json:"tip"`
+        Code int `json:"code"`
+    } `json:"error"`
+}
+
 func init() {
 	Client = &http.Client{}
 }
@@ -95,8 +103,18 @@ func (c *TogglClient) sendRequest(request *http.Request) ([]byte, error) {
 		return nil, err
 	}
 
+
 	if response.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("request failed with status %d: %s", response.StatusCode, body)
+		var errorResponse ErrorResponse
+
+		err := json.Unmarshal(body, &errorResponse)
+		if err != nil {
+			return nil, fmt.Errorf("request failed with status %d and unschematic error response: %s", response.StatusCode, body)
+		}
+
+		code := errorResponse.Error.Code
+		message := fmt.Sprintf("%s %s", errorResponse.Error.Message, errorResponse.Error.Tip)
+		return nil, fmt.Errorf("request failed with status %d and message: '%s'", code, message)
 	}
 
 	return body, nil
