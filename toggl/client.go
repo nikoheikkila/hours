@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"time"
 )
 
 const (
@@ -57,9 +56,9 @@ func New(token, workspace string) *TogglClient {
 	}
 }
 
-func (c *TogglClient) Entries(start, end time.Time) ([]TimeEntry, error) {
-	startDate := url.QueryEscape(start.Format(time.RFC3339))
-	endDate := url.QueryEscape(end.Format(time.RFC3339))
+func (c *TogglClient) Entries(start, end string) ([]TimeEntry, error) {
+	startDate := url.QueryEscape(start)
+	endDate := url.QueryEscape(end)
 	url := fmt.Sprintf("%s/details?workspace_id=%s&since=%s&until=%s&user_agent=%s", c.baseURL, c.workspace, startDate, endDate, USER_AGENT)
 
 	request, err := http.NewRequest("GET", url, nil)

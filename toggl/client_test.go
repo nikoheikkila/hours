@@ -7,11 +7,12 @@ import (
 	"io/ioutil"
 	"net/http"
 	"testing"
-	"time"
 
 	mocks "github.com/nikoheikkila/hours/toggl/utils"
 	"github.com/stretchr/testify/assert"
 )
+
+const TEST_DATE string = "2021-01-01"
 
 func init() {
 	Client = &mocks.MockClient{}
@@ -51,7 +52,7 @@ func TestClientReturnEntriesForTimeRange(t *testing.T) {
 	}
 
 	toggl := New("some-token", "1")
-	entries, err := toggl.Entries(time.Now(), time.Now())
+	entries, err := toggl.Entries(TEST_DATE,TEST_DATE)
 
 	assert.Nil(err)
 	assert.Equal(2, len(entries))
@@ -69,7 +70,7 @@ func TestClientReturnErrorForMissingToken(t *testing.T) {
 	assert := assert.New(t)
 
 	client := New("", "1")
-	entries, err := client.Entries(time.Now(), time.Now())
+	entries, err := client.Entries(TEST_DATE, TEST_DATE)
 
 	assert.Nil(entries)
 	assert.EqualError(err, "missing Toggl API token for the client")
