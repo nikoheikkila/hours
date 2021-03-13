@@ -1,4 +1,4 @@
-# Toggle Reports
+# Hours
 
 Command-line utility script for fetching the latest **Toggl** project entries and printing a nice list out of them for reporting.
 

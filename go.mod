@@ -1,4 +1,4 @@
-module github.com/nikoheikkila/toggl-reporter
+module github.com/nikoheikkila/hours
 
 go 1.16
 

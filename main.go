@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/muesli/termenv"
-	"github.com/nikoheikkila/toggl-reporter/report"
+	"github.com/nikoheikkila/hours/report"
 )
 
 func main() {
