@@ -52,7 +52,7 @@ func TestClientReturnEntriesForTimeRange(t *testing.T) {
 	}
 
 	toggl := New("some-token", "1")
-	entries, err := toggl.Entries(TEST_DATE,TEST_DATE)
+	entries, err := toggl.Entries(TEST_DATE, TEST_DATE)
 
 	assert.Nil(err)
 	assert.Equal(2, len(entries))

@@ -10,10 +10,10 @@ import (
 )
 
 const (
-	USER_AGENT string = "https://github.com/nikoheikkila/hours"
-	BASE_URL string = "https://api.track.toggl.com/reports/api/v2"
+	USER_AGENT   string = "https://github.com/nikoheikkila/hours"
+	BASE_URL     string = "https://api.track.toggl.com/reports/api/v2"
 	CONTENT_TYPE string = "application/json"
-	PASSWORD string = "api_token"
+	PASSWORD     string = "api_token"
 )
 
 var (
@@ -29,18 +29,18 @@ type HTTPClient interface {
 }
 
 type TogglClient struct {
-	baseURL string
+	baseURL     string
 	contentType string
-	token string
-	workspace string
+	token       string
+	workspace   string
 }
 
 type ErrorResponse struct {
-    Error struct {
-        Message string `json:"message"`
-        Tip string `json:"tip"`
-        Code int `json:"code"`
-    } `json:"error"`
+	Error struct {
+		Message string `json:"message"`
+		Tip     string `json:"tip"`
+		Code    int    `json:"code"`
+	} `json:"error"`
 }
 
 func init() {
@@ -49,10 +49,10 @@ func init() {
 
 func New(token, workspace string) *TogglClient {
 	return &TogglClient{
-		baseURL: BASE_URL,
+		baseURL:     BASE_URL,
 		contentType: CONTENT_TYPE,
-		token: token,
-		workspace: workspace,
+		token:       token,
+		workspace:   workspace,
 	}
 }
 
@@ -82,7 +82,7 @@ func (c *TogglClient) Entries(start, end string) ([]TimeEntry, error) {
 }
 
 func (c *TogglClient) sendRequest(request *http.Request) ([]byte, error) {
-	if (c.token == "") {
+	if c.token == "" {
 		return nil, ErrMissingToken
 	}
 
@@ -101,7 +101,6 @@ func (c *TogglClient) sendRequest(request *http.Request) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-
 
 	if response.StatusCode != http.StatusOK {
 		var errorResponse ErrorResponse

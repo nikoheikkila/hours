@@ -17,7 +17,7 @@ func main() {
 	client := toggl.New(token, workspace)
 
 	output := flag.String("output", "text", "Output format for the reporter ['text']")
-	since := flag.String("since", time.Now().Add(-time.Hour * 24).Format(time.RFC3339), "Start date for searching time entries")
+	since := flag.String("since", time.Now().Add(-time.Hour*24).Format(time.RFC3339), "Start date for searching time entries")
 	until := flag.String("until", time.Now().Format(time.RFC3339), "End date for searching time entries")
 	flag.Parse()
 
