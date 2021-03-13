@@ -2,18 +2,40 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os"
+	"time"
 
-	"github.com/muesli/termenv"
-	"github.com/nikoheikkila/hours/report"
+	"github.com/nikoheikkila/hours/toggl"
 )
 
+func env(key string) string {
+	value := os.Getenv(key)
+
+	if value == "" {
+		log.Fatalf("Could not read environment variable %s.", key)
+	}
+
+	return value
+}
+
+func handleError(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 func main() {
-	var reports []report.Report
+	token := env("TOGGL_API_TOKEN")
+	client := toggl.WithToken(token)
 
-	reports = append(reports, report.New(1.2, "Test Project", "Meeting"))
+	end := time.Now()
+	start := end.Add(-time.Hour * 24 * 7)
 
-	for i, report := range reports {
-		index := termenv.String(fmt.Sprint(i + 1)).Bold().Foreground(termenv.ANSIBrightYellow)
-		fmt.Printf("%s. %s", index, report.ToString())
+	entries, err := client.Entries(start, end)
+	handleError(err)
+
+	for _, entry := range *entries {
+		fmt.Printf("- %d hours of project %d in task %s\n", entry.Duration, entry.Pid, entry.Description)
 	}
 }
