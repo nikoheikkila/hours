@@ -35,7 +35,7 @@ func main() {
 	entries, err := client.Entries(start, end)
 	handleError(err)
 
-	for _, entry := range *entries {
+	for _, entry := range entries {
 		fmt.Printf("- %d hours of project %d in task %s\n", entry.Duration, entry.Pid, entry.Description)
 	}
 }
