@@ -43,6 +43,14 @@ type DetailedReport struct {
 
 // Methods
 
-func (e *TimeEntry) GetDuration() float64 {
+func (e *TimeEntry) GetHours() float64 {
 	return formats.MillisecondsToHours(e.Duration)
+}
+
+func (e *TimeEntry) FormatStartDate(format string) string {
+	return e.Start.Format(format)
+}
+
+func (e *TimeEntry) FormatEndDate(format string) string {
+	return e.End.Format(format)
 }
