@@ -8,7 +8,7 @@ Working as a consultant requires you to mark your billed project hours periodica
 
 ## Installation
 
-Make sure you have at least Go 1.15+ installed (Tip: run `brew install go`).
+Make sure you have at least **Go 1.15+** installed (Tip: run `brew install go`) and `$GOPATH/bin` is included in your `$PATH`.
 
 ```sh
 go get github.com/nikoheikkila/hours
