@@ -36,6 +36,6 @@ func main() {
 	handleError(err)
 
 	for _, entry := range entries {
-		fmt.Printf("- %d hours of project %d in task %s\n", entry.Duration, entry.Pid, entry.Description)
+		fmt.Printf("- %.1f hours of project %d in task %s\n", entry.GetDuration(), entry.Pid, entry.Description)
 	}
 }
