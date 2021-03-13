@@ -1,0 +1,24 @@
+name: Build and Test Go Project
+
+on:
+  - push
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go v1.16
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.16
+
+    - name: Build project
+      run: make build
+
+    - name: Run unit tests
+      run: make test

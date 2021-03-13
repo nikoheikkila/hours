@@ -1,8 +1,11 @@
 install:
-	go mod vendor
+	go get -t ./...
 
 clean:
 	rm -rf ./build
 
-build: clean
-	go build -o ./build/hours
+build: install clean
+	go build -v -o ./build/hours
+
+test:
+	go test -v ./...
