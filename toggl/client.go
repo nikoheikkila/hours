@@ -11,8 +11,8 @@ import (
 )
 
 const (
-	USER_AGENT string = "github.com/nikoheikkila/hours"
-	BASE_URL string = "https://api.track.toggl.com/api/v8"
+	USER_AGENT string = "https://github.com/nikoheikkila/hours"
+	BASE_URL string = "https://api.track.toggl.com/reports/api/v2"
 	CONTENT_TYPE string = "application/json"
 	PASSWORD string = "api_token"
 )
@@ -33,24 +33,26 @@ type TogglClient struct {
 	baseURL string
 	contentType string
 	token string
+	workspace string
 }
 
 func init() {
 	Client = &http.Client{}
 }
 
-func WithToken(token string) *TogglClient {
+func New(token string, workspace string) *TogglClient {
 	return &TogglClient{
 		baseURL: BASE_URL,
 		contentType: CONTENT_TYPE,
 		token: token,
+		workspace: workspace,
 	}
 }
 
 func (c *TogglClient) Entries(start, end time.Time) ([]TimeEntry, error) {
 	startDate := url.QueryEscape(start.Format(time.RFC3339))
 	endDate := url.QueryEscape(end.Format(time.RFC3339))
-	url := fmt.Sprintf("%s/time_entries?start_date=%s&end_date=%s", c.baseURL, startDate, endDate)
+	url := fmt.Sprintf("%s/details?workspace_id=%s&since=%s&until=%s&user_agent=%s", c.baseURL, c.workspace, startDate, endDate, USER_AGENT)
 
 	request, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -62,14 +64,14 @@ func (c *TogglClient) Entries(start, end time.Time) ([]TimeEntry, error) {
 		return nil, err
 	}
 
-	var entries []TimeEntry
+	var report DetailedReport
 
-	err = json.Unmarshal(bytes, &entries)
+	err = json.Unmarshal(bytes, &report)
 	if err != nil {
 		return nil, err
 	}
 
-	return entries, nil
+	return report.Data, nil
 }
 
 func (c *TogglClient) sendRequest(request *http.Request) ([]byte, error) {

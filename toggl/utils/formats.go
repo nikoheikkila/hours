@@ -1,5 +1,5 @@
 package utils
 
-func SecondsToHours(seconds int64) float64 {
-	return float64(seconds) / 60 / 60
+func MillisecondsToHours(seconds int64) float64 {
+	return float64(seconds) / 1000 / 60 / 60
 }

@@ -19,20 +19,28 @@ func init() {
 
 func TestClientReturnEntriesForTimeRange(t *testing.T) {
 	assert := assert.New(t)
-	json := `[
-		{
-			"id": 1,
-			"pid": 10,
-			"duration": 3600,
-			"description": "Working on Hours CLI"
-		},
-		{
-			"id": 2,
-			"pid": 10,
-			"duration": 1800,
-			"description": "Client meeting"
-		}
-  	]`
+	json := `{
+		"data": [
+			{
+				"description": "Project work",
+				"start": "2021-03-13T11:00:11+02:00",
+				"end": "2021-03-13T14:21:17+02:00",
+				"dur": 3600000,
+				"client": "Client A",
+				"project": "Product X",
+				"project_hex_color": "#525266"
+			},
+			{
+				"description": "Client meeting",
+				"start": "2021-03-12T16:00:00+02:00",
+				"end": "2021-03-12T18:30:00+02:00",
+				"dur": 1800000,
+				"client": "Client B",
+				"project": "Product Y",
+				"project_hex_color": "#06a893"
+			}
+		]
+	}`
 
 	mocks.GetDoFunc = func(*http.Request) (*http.Response, error) {
 		reader := ioutil.NopCloser(bytes.NewReader([]byte(json)))
@@ -42,27 +50,25 @@ func TestClientReturnEntriesForTimeRange(t *testing.T) {
 		}, nil
 	}
 
-	toggl := WithToken("some-token")
+	toggl := New("some-token", "1")
 	entries, err := toggl.Entries(time.Now(), time.Now())
 
 	assert.Nil(err)
 	assert.Equal(2, len(entries))
 
-	assert.EqualValues(1, entries[0].Id)
-	assert.EqualValues(10, entries[0].Pid)
-	assert.EqualValues(3600, entries[0].Duration)
-	assert.EqualValues("Working on Hours CLI", entries[0].Description)
+	assert.EqualValues("Project work", entries[0].Description)
+	assert.EqualValues("Product X", entries[0].Project)
+	assert.EqualValues(3600000, entries[0].Duration)
 
-	assert.EqualValues(2, entries[1].Id)
-	assert.EqualValues(10, entries[1].Pid)
-	assert.EqualValues(1800, entries[1].Duration)
 	assert.EqualValues("Client meeting", entries[1].Description)
+	assert.EqualValues("Product Y", entries[1].Project)
+	assert.EqualValues(1800000, entries[1].Duration)
 }
 
 func TestClientReturnErrorForMissingToken(t *testing.T) {
 	assert := assert.New(t)
 
-	client := WithToken("")
+	client := New("", "1")
 	entries, err := client.Entries(time.Now(), time.Now())
 
 	assert.Nil(entries)

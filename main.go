@@ -27,15 +27,16 @@ func handleError(err error) {
 
 func main() {
 	token := env("TOGGL_API_TOKEN")
-	client := toggl.WithToken(token)
+	workspace := env("TOGGL_WORKSPACE_ID")
+	client := toggl.New(token, workspace)
 
 	end := time.Now()
-	start := end.Add(-time.Hour * 24 * 7)
+	start := time.Now().Add(-time.Hour * 24)
 
 	entries, err := client.Entries(start, end)
 	handleError(err)
 
 	for _, entry := range entries {
-		fmt.Printf("- %.1f hours of project %d in task %s\n", entry.GetDuration(), entry.Pid, entry.Description)
+		fmt.Printf("- %s: %.1f hours of project %s in task %s\n", entry.Start, entry.GetDuration(), entry.Project, entry.Description)
 	}
 }
