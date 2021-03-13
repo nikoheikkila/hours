@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/go
 # Edit at https://www.toptal.com/developers/gitignore?templates=go
 
+# VS Code
+.vscode/
+
 ### Go ###
 # Binaries for programs and plugins
 /build
