@@ -16,15 +16,16 @@ func main() {
 	workspace := env("TOGGL_WORKSPACE_ID")
 	client := toggl.New(token, workspace)
 
-	output := flag.String("output", "text", "Output format for the reporter ['text']")
-	since := flag.String("since", time.Now().Add(-time.Hour*24).Format(time.RFC3339), "Start date for searching time entries")
-	until := flag.String("until", time.Now().Format(time.RFC3339), "End date for searching time entries")
+	output := flag.String("output", "text", "Output format for the reporter.")
+	since := flag.String("since", time.Now().Add(-time.Hour*24).Format(time.RFC3339), "Start date for searching time entries.")
+	until := flag.String("until", time.Now().Format(time.RFC3339), "End date for searching time entries.")
+	ansi := flag.Bool("ansi", true, "Whether to format the output with ANSI styles. Used only by the 'text' reporter.")
 	flag.Parse()
 
 	entries, err := client.Entries(*since, *until)
 	handleError(err)
 
-	r, err := getReporter(*output, entries)
+	r, err := getReporter(*output, *ansi, entries)
 	handleError(err)
 
 	r.Print()
@@ -48,8 +49,12 @@ func handleError(err error) {
 	}
 }
 
-func getReporter(output string, entries []toggl.TimeEntry) (report.Exportable, error) {
+func getReporter(output string, ansi bool, entries []toggl.TimeEntry) (report.Exportable, error) {
 	if output == "text" {
+		if ansi {
+			return textreporter.NewColorized(entries), nil
+		}
+
 		return textreporter.New(entries), nil
 	}
 
