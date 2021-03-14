@@ -48,10 +48,12 @@ Options:
 **Hours** uses reporters which are plugins accepting a list of time entries and printing them to the terminal in suitable format. As of now, available and upcoming reporters are:
 
 - [x] Plain text (allows formatting the output with ANSI styles using the [_termenv_][termenv] library)
-- [ ] Markdown (coming soon)
+- [x] Markdown (pipe to e.g. [_Pandoc_][pandoc] for additional processing, or to [_Glow_][glow] for fancier formatting)
 - [ ] CSV (coming soon)
 - [ ] JSON (coming soon)
 
 [toggl]: https://toggl.com/
 [api]: https://track.toggl.com/profile
 [termenv]: https://github.com/muesli/termenv
+[pandoc]: https://pandoc.org/
+[glow]: https://github.com/charmbracelet/glow
