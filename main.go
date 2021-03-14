@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/nikoheikkila/hours/report"
+	markdownreporter "github.com/nikoheikkila/hours/report/markdown"
 	textreporter "github.com/nikoheikkila/hours/report/text"
 	"github.com/nikoheikkila/hours/toggl"
 )
@@ -56,6 +57,10 @@ func getReporter(output string, ansi bool, entries []toggl.TimeEntry) (report.Ex
 		}
 
 		return textreporter.New(entries), nil
+	}
+
+	if output == "markdown" {
+		return markdownreporter.New(entries), nil
 	}
 
 	return nil, fmt.Errorf("unable to find reporter for output format %s", output)

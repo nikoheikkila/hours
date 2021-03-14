@@ -1,6 +1,7 @@
 package toggl
 
 import (
+	"fmt"
 	"time"
 
 	formats "github.com/nikoheikkila/hours/toggl/utils"
@@ -49,8 +50,8 @@ func (e *TimeEntry) GetHours() float64 {
 	return formats.MillisecondsToHours(e.Duration)
 }
 
-func (e *TimeEntry) FormatStartDate(format string) string {
-	return e.Start.Format(format)
+func (e *TimeEntry) FormatHours() string {
+	return fmt.Sprintf("%.1f", e.GetHours())
 }
 
 func (e *TimeEntry) FormatStartDate() string {
