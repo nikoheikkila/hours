@@ -31,22 +31,27 @@ hours <FLAGS>
 Options:
 
 --output <string>
-    Output format for the reporter (default: 'text')
+    Output format for the reporter (default: 'text').
 
 --since <string>
-    ISO compatible date where to begin listing time entries (default: yesterday)
+    ISO compatible date where to begin listing time entries (default: yesterday).
 
 --until <string>
-    ISO compatible date where to stop listing time entries (default: today)
+    ISO compatible date where to stop listing time entries (default: today).
+
+--ansi=<bool>
+    Set to false if you don't want text reporter to style its output (default: true).
 ```
 
 ## Reporters
 
 **Hours** uses reporters which are plugins accepting a list of time entries and printing them to the terminal in suitable format. As of now, available and upcoming reporters are:
 
-- [x] Plain text (uses _termenv_ library for formatting the output)
+- [x] Plain text (allows formatting the output with ANSI styles using the [_termenv_][termenv] library)
+- [ ] Markdown (coming soon)
 - [ ] CSV (coming soon)
 - [ ] JSON (coming soon)
 
 [toggl]: https://toggl.com/
 [api]: https://track.toggl.com/profile
+[termenv]: https://github.com/muesli/termenv
