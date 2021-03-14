@@ -1,5 +1,5 @@
 install:
-	go get -t ./...
+	go get -v ./...
 
 clean:
 	rm -rf ./build
@@ -7,5 +7,8 @@ clean:
 build: install clean
 	go build -v -o ./build/hours
 
-test:
+lint:
+	go fmt ./...
+
+test: lint
 	go test -v ./...
