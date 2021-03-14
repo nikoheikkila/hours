@@ -6,6 +6,8 @@ import (
 	formats "github.com/nikoheikkila/hours/toggl/utils"
 )
 
+const DATE_LAYOUT string = "02.01.2006"
+
 type TimeEntry struct {
 	Id          int       `json:"id"`
 	ProjectId   int       `json:"pid"`
@@ -51,6 +53,10 @@ func (e *TimeEntry) FormatStartDate(format string) string {
 	return e.Start.Format(format)
 }
 
-func (e *TimeEntry) FormatEndDate(format string) string {
-	return e.End.Format(format)
+func (e *TimeEntry) FormatStartDate() string {
+	return e.Start.Format(DATE_LAYOUT)
+}
+
+func (e *TimeEntry) FormatEndDate() string {
+	return e.End.Format(DATE_LAYOUT)
 }

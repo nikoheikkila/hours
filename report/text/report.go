@@ -33,14 +33,14 @@ func (r PlainTextReport) Print() {
 	for _, entry := range r.entries {
 		if r.colorized {
 			profile := termenv.ColorProfile()
-			startDate := termenv.String(entry.FormatStartDate(DATE_LAYOUT)).Faint()
+			startDate := termenv.String(entry.FormatStartDate()).Faint()
 			description := termenv.String(entry.Description).Bold()
 			project := termenv.String(entry.Project).Bold().Foreground(profile.Color(entry.HexColor))
 			hours := termenv.String(fmt.Sprintf("%.1f", entry.GetHours())).Bold()
 
 			fmt.Printf("- %s: %s (%s) (%s h) \n", startDate, description, project, hours)
 		} else {
-			startDate := entry.FormatStartDate(DATE_LAYOUT)
+			startDate := entry.FormatStartDate()
 			description := entry.Description
 			project := entry.Project
 			hours := fmt.Sprintf("%.1f", entry.GetHours())
