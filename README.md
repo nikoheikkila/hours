@@ -4,7 +4,7 @@ Working as a consultant requires you to mark your billed project hours periodica
 
 **Hours** is a command-line tool built with **Go** for exporting the latest Toggl project entries from your workspace and printing a _nice_ report of them. Hand it over to your account manager or client.
 
-> **NOTE:** Requires a Toggle account and an [API key][api] which you can set up for free. Furthermore, you should have enough privileges on your account since Hours fetches time entries by looking up from Toggl workspaces.
+> **NOTE:** Requires a Toggl Track account and an [API key][api] which you can set up for free. Furthermore, you should have enough privileges on your account since Hours fetches time entries by looking up from Toggl workspaces.
 
 ## Installation
 
