@@ -49,7 +49,7 @@ Options:
 
 - [x] Plain text (allows formatting the output with ANSI styles using the [_termenv_][termenv] library)
 - [x] Markdown (pipe to e.g. [_Pandoc_][pandoc] for additional processing, or to [_Glow_][glow] for fancier formatting)
-- [ ] CSV (coming soon)
+- [x] CSV
 - [ ] JSON (coming soon)
 
 [toggl]: https://toggl.com/
