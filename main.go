@@ -8,6 +8,7 @@ import (
 
 	"github.com/nikoheikkila/hours/report"
 	csvreporter "github.com/nikoheikkila/hours/report/csv"
+	jsonreporter "github.com/nikoheikkila/hours/report/json"
 	markdownreporter "github.com/nikoheikkila/hours/report/markdown"
 	textreporter "github.com/nikoheikkila/hours/report/text"
 	"github.com/nikoheikkila/hours/toggl"
@@ -66,6 +67,10 @@ func getReporter(output string, ansi bool, entries []toggl.TimeEntry) (report.Ex
 
 	if output == "csv" {
 		return csvreporter.New(entries), nil
+	}
+
+	if output == "json" {
+		return jsonreporter.New(entries), nil
 	}
 
 	return nil, fmt.Errorf("unable to find reporter for output format %s", output)
