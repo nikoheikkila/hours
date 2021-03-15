@@ -7,7 +7,11 @@ import (
 	formats "github.com/nikoheikkila/hours/toggl/utils"
 )
 
-const DATE_LAYOUT string = "02.01.2006"
+const (
+	DATE_LAYOUT string = "02.01.2006"
+	NO_CLIENT   string = "No Client"
+	NO_PROJECT  string = "No Project"
+)
 
 type TimeEntry struct {
 	Id          int       `json:"id"`
@@ -48,6 +52,22 @@ type DetailedReport struct {
 
 func (e *TimeEntry) GetHours() float64 {
 	return formats.MillisecondsToHours(e.Duration)
+}
+
+func (e *TimeEntry) GetClient() string {
+	if e.Client == "" {
+		return NO_CLIENT
+	}
+
+	return e.Client
+}
+
+func (e *TimeEntry) GetProject() string {
+	if e.Project == "" {
+		return NO_PROJECT
+	}
+
+	return e.Project
 }
 
 func (e *TimeEntry) FormatHours() string {

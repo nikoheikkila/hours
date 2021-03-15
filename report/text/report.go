@@ -35,17 +35,19 @@ func (r PlainTextReport) Print() {
 			profile := termenv.ColorProfile()
 			startDate := termenv.String(entry.FormatStartDate()).Faint()
 			description := termenv.String(entry.Description).Bold()
-			project := termenv.String(entry.Project).Bold().Foreground(profile.Color(entry.HexColor))
+			project := termenv.String(entry.GetProject()).Bold().Foreground(profile.Color(entry.HexColor))
+			client := termenv.String(entry.GetClient()).Bold().Foreground(profile.Color(entry.HexColor))
 			hours := termenv.String(fmt.Sprintf("%.1f", entry.GetHours())).Bold()
 
-			fmt.Printf("- %s: %s (%s) (%s h) \n", startDate, description, project, hours)
+			fmt.Printf("- %s: %s (%s, %s) (%s h) \n", startDate, description, project, client, hours)
 		} else {
 			startDate := entry.FormatStartDate()
 			description := entry.Description
-			project := entry.Project
+			project := entry.GetProject()
+			client := entry.GetClient()
 			hours := fmt.Sprintf("%.1f", entry.GetHours())
 
-			fmt.Printf("- %s: %s (%s) (%s h) \n", startDate, description, project, hours)
+			fmt.Printf("- %s: %s (%s, %s) (%s h) \n", startDate, description, project, client, hours)
 		}
 	}
 }
