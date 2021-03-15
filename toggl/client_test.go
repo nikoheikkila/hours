@@ -66,6 +66,26 @@ func TestClientReturnEntriesForTimeRange(t *testing.T) {
 	assert.EqualValues(1800000, entries[1].Duration)
 }
 
+func TestClientReturnsErrorOnEmptyAPIResponse(t *testing.T) {
+	assert := assert.New(t)
+	json := `{}`
+
+	mocks.GetDoFunc = func(*http.Request) (*http.Response, error) {
+		reader := ioutil.NopCloser(bytes.NewReader([]byte(json)))
+		return &http.Response{
+			StatusCode: http.StatusOK,
+			Body:       reader,
+		}, nil
+	}
+
+	toggl := New("some-token", "1")
+	entries, err := toggl.Entries(TEST_DATE, TEST_DATE)
+
+	assert.Nil(entries)
+	assert.NotNil(err)
+	assert.EqualError(err, ErrEmptyResponse.Error())
+}
+
 func TestClientReturnErrorForMissingToken(t *testing.T) {
 	assert := assert.New(t)
 

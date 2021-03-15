@@ -21,7 +21,8 @@ var (
 )
 
 var (
-	ErrMissingToken error = errors.New("missing Toggl API token for the client")
+	ErrMissingToken  error = errors.New("missing Toggl API token for the client")
+	ErrEmptyResponse error = errors.New("empty response from Toggl API")
 )
 
 type HTTPClient interface {
@@ -76,6 +77,10 @@ func (c *TogglClient) Entries(start, end string) ([]TimeEntry, error) {
 	err = json.Unmarshal(bytes, &report)
 	if err != nil {
 		return nil, err
+	}
+
+	if len(report.Data) == 0 {
+		return nil, ErrEmptyResponse
 	}
 
 	return report.Data, nil
