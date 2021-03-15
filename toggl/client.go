@@ -17,10 +17,7 @@ const (
 )
 
 var (
-	Client HTTPClient
-)
-
-var (
+	Client           HTTPClient
 	ErrMissingToken  error = errors.New("missing Toggl API token for the client")
 	ErrEmptyResponse error = errors.New("empty response from Toggl API")
 )
