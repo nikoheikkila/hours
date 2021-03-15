@@ -11,19 +11,30 @@ import (
 	jsonreporter "github.com/nikoheikkila/hours/report/json"
 	markdownreporter "github.com/nikoheikkila/hours/report/markdown"
 	textreporter "github.com/nikoheikkila/hours/report/text"
+	"github.com/nikoheikkila/hours/rules"
 	"github.com/nikoheikkila/hours/toggl"
 )
 
+const DATE_FORMAT_ISO string = "2006-01-02"
+
 func main() {
+	var err error
+
 	token := env("TOGGL_API_TOKEN")
 	workspace := env("TOGGL_WORKSPACE_ID")
 	client := toggl.New(token, workspace)
 
 	output := flag.String("output", "text", "Output format for the reporter.")
-	since := flag.String("since", time.Now().Add(-time.Hour*24).Format(time.RFC3339), "Start date for searching time entries.")
-	until := flag.String("until", time.Now().Format(time.RFC3339), "End date for searching time entries.")
+	since := flag.String("since", time.Now().Add(-time.Hour*24).Format(DATE_FORMAT_ISO), "Start date for searching time entries.")
+	until := flag.String("until", time.Now().Format(DATE_FORMAT_ISO), "End date for searching time entries.")
 	ansi := flag.Bool("ansi", true, "Whether to format the output with ANSI styles. Used only by the 'text' reporter.")
 	flag.Parse()
+
+	err = rules.IsValidISO8601Date(*since, DATE_FORMAT_ISO)
+	handleError(err)
+
+	err = rules.IsValidISO8601Date(*until, DATE_FORMAT_ISO)
+	handleError(err)
 
 	entries, err := client.Entries(*since, *until)
 	handleError(err)
