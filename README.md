@@ -8,6 +8,12 @@ Working as a consultant requires you to mark your billed project hours periodica
 
 ## Installation
 
+### Option 1: Download Binaries
+
+Go to the [**releases**][releases] page and download the preferred archive. Each release is compiled for **macOS**, **Linux**, and **Windows** platforms (32-bit & 64-bit).
+
+### Option 2: Use Go
+
 Make sure you have at least **Go 1.15+** installed (Tip: run `brew install go`) and `$GOPATH/bin` is included in your `$PATH`.
 
 ```sh
@@ -108,3 +114,4 @@ hours --output csv > report.csv
 [pandoc]: https://pandoc.org/
 [glow]: https://github.com/charmbracelet/glow
 [jq]: https://stedolan.github.io/jq/
+[releases]: https://github.com/nikoheikkila/hours/releases/latest
