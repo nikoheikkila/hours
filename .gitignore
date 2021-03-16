@@ -6,6 +6,7 @@
 
 ### Go ###
 # Binaries for programs and plugins
+/dist
 /build
 *.exe
 *.exe~
@@ -26,4 +27,4 @@
 /vendor/
 /Godeps/
 
-# End of https://www.toptal.com/developers/gitignore/api/go
+# End of https://www.toptal.com/developers/gitignore/api/godist/

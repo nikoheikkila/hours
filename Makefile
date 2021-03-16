@@ -1,5 +1,6 @@
 install:
 	go get -v ./...
+	go mod tidy
 
 clean:
 	rm -rf ./build
