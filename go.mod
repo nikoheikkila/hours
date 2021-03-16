@@ -8,4 +8,5 @@ require (
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/stretchr/testify v1.7.0
 	golang.org/x/sys v0.0.0-20201009025420-dfb3f7c4e634 // indirect
+	gopkg.in/yaml.v2 v2.4.0
 )

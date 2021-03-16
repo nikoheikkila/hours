@@ -16,10 +16,17 @@ go get github.com/nikoheikkila/hours
 
 ## Usage
 
-Currently, using **Hours** requires the following environment variables:
+First, configure the tool by creating a `~/.togglrc` file from the template below and replace dummy values with yours (note the YAML syntax).
 
-- `TOGGL_API_TOKEN` – API token from your [Toggl settings][api]
-- `TOGGL_WORKSPACE_ID` – Numeric workspace ID found in Toggl under `Organization -> Workspaces` (copy it from the address bar)
+```yml
+# Find this from your Toggl user settings
+api_token: your-toggl-api-token
+
+# Find this under 'Organization -> Workspace' (copy it from the address bar)
+workspace_id: your-toggl-workspace-id
+```
+
+Alternatively, you can use the environment variables `TOGGL_API_TOKEN` and `TOGGL_WORKSPACE_ID` if you don't want to use a configuration file.
 
 After installing, run it from your shell like so:
 

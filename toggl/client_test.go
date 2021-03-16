@@ -1,5 +1,3 @@
-// build +integration
-
 package toggl
 
 import (
@@ -51,7 +49,7 @@ func TestClientReturnEntriesForTimeRange(t *testing.T) {
 		}, nil
 	}
 
-	toggl := New("some-token", "1")
+	toggl := New(&Configuration{"some-token", "1"})
 	entries, err := toggl.Entries(TEST_DATE, TEST_DATE)
 
 	assert.Nil(err)
@@ -78,7 +76,7 @@ func TestClientReturnsErrorOnEmptyAPIResponse(t *testing.T) {
 		}, nil
 	}
 
-	toggl := New("some-token", "1")
+	toggl := New(&Configuration{"some-token", "1"})
 	entries, err := toggl.Entries(TEST_DATE, TEST_DATE)
 
 	assert.Nil(entries)
@@ -89,9 +87,9 @@ func TestClientReturnsErrorOnEmptyAPIResponse(t *testing.T) {
 func TestClientReturnErrorForMissingToken(t *testing.T) {
 	assert := assert.New(t)
 
-	client := New("", "1")
-	entries, err := client.Entries(TEST_DATE, TEST_DATE)
+	toggl := New(&Configuration{"", "1"})
+	entries, err := toggl.Entries(TEST_DATE, TEST_DATE)
 
 	assert.Nil(entries)
-	assert.EqualError(err, "missing Toggl API token for the client")
+	assert.EqualError(err, ErrMissingToken.Error())
 }

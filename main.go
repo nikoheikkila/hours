@@ -20,9 +20,10 @@ const DATE_FORMAT_ISO string = "2006-01-02"
 func main() {
 	var err error
 
-	token := env("TOGGL_API_TOKEN")
-	workspace := env("TOGGL_WORKSPACE_ID")
-	client := toggl.New(token, workspace)
+	configuration, err := toggl.LoadConfiguration()
+	handleError(err)
+
+	client := toggl.New(configuration)
 
 	output := flag.String("output", "text", "Output format for the reporter.")
 	since := flag.String("since", time.Now().Add(-time.Hour*24).Format(DATE_FORMAT_ISO), "Start date for searching time entries.")
@@ -43,17 +44,6 @@ func main() {
 	handleError(err)
 
 	r.Print()
-}
-
-func env(key string) string {
-	value := os.Getenv(key)
-
-	if value == "" {
-		fmt.Printf("Could not read environment variable %s.", key)
-		os.Exit(2)
-	}
-
-	return value
 }
 
 func handleError(err error) {

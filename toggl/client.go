@@ -45,12 +45,12 @@ func init() {
 	Client = &http.Client{}
 }
 
-func New(token, workspace string) *TogglClient {
+func New(configuration *Configuration) *TogglClient {
 	return &TogglClient{
 		baseURL:     BASE_URL,
 		contentType: CONTENT_TYPE,
-		token:       token,
-		workspace:   workspace,
+		token:       configuration.Token,
+		workspace:   configuration.Workspace,
 	}
 }
 
