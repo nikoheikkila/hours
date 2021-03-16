@@ -33,3 +33,6 @@ changelog:
       - '^chore:'
       - '^docs:'
       - '^test:'
+
+release:
+  draft: true
