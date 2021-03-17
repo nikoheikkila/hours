@@ -8,9 +8,10 @@ import (
 )
 
 const (
-	DATE_LAYOUT string = "02.01.2006"
-	NO_CLIENT   string = "No Client"
-	NO_PROJECT  string = "No Project"
+	DATE_LAYOUT    string = "02.01.2006"
+	NO_CLIENT      string = "No Client"
+	NO_PROJECT     string = "No Project"
+	NO_DESCRIPTION string = "No Description"
 )
 
 type TimeEntry struct {
@@ -68,6 +69,14 @@ func (e *TimeEntry) GetProject() string {
 	}
 
 	return e.Project
+}
+
+func (e *TimeEntry) GetDescription() string {
+	if e.Description == "" {
+		return NO_DESCRIPTION
+	}
+
+	return e.Description
 }
 
 func (e *TimeEntry) FormatHours() string {

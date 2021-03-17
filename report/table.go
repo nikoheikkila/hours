@@ -19,7 +19,7 @@ func PrepareTable(entries []toggl.TimeEntry) table.Writer {
 
 	for _, entry := range entries {
 		totalMilliSeconds += entry.Duration
-		markdown.AppendRow(table.Row{entry.FormatStartDate(), entry.Description, entry.GetProject(), entry.GetClient(), entry.FormatHours()})
+		markdown.AppendRow(table.Row{entry.FormatStartDate(), entry.GetDescription(), entry.GetProject(), entry.GetClient(), entry.FormatHours()})
 	}
 
 	totalHours := formats.FormatDuration(formats.MillisecondsToHours(totalMilliSeconds))
