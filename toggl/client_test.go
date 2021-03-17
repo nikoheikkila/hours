@@ -53,15 +53,52 @@ func TestClientReturnEntriesForTimeRange(t *testing.T) {
 	entries, err := toggl.Entries(TEST_DATE, TEST_DATE)
 
 	assert.Nil(err)
-	assert.Equal(2, len(entries))
+	assert.Len(entries, 2)
 
-	assert.EqualValues("Project work", entries[0].Description)
-	assert.EqualValues("Product X", entries[0].Project)
-	assert.EqualValues(3600000, entries[0].Duration)
+	assert.EqualValues("Project work", entries[0].GetDescription())
+	assert.EqualValues("Client A", entries[0].GetClient())
+	assert.EqualValues("Product X", entries[0].GetProject())
+	assert.EqualValues(1.0, entries[0].GetHours())
 
-	assert.EqualValues("Client meeting", entries[1].Description)
-	assert.EqualValues("Product Y", entries[1].Project)
-	assert.EqualValues(1800000, entries[1].Duration)
+	assert.EqualValues("Client meeting", entries[1].GetDescription())
+	assert.EqualValues("Client B", entries[1].GetClient())
+	assert.EqualValues("Product Y", entries[1].GetProject())
+	assert.EqualValues(0.5, entries[1].GetHours())
+}
+
+func TestMissingValuesFromClientAreReplaced(t *testing.T) {
+	assert := assert.New(t)
+	json := `{
+		"data": [
+			{
+				"description": "",
+				"start": "2021-03-13T11:00:11+02:00",
+				"end": "2021-03-13T14:21:17+02:00",
+				"dur": 3600000,
+				"client": "",
+				"project": ""
+			}
+		]
+	}`
+
+	mocks.GetDoFunc = func(*http.Request) (*http.Response, error) {
+		reader := ioutil.NopCloser(bytes.NewReader([]byte(json)))
+		return &http.Response{
+			StatusCode: http.StatusOK,
+			Body:       reader,
+		}, nil
+	}
+
+	toggl := New(&Configuration{"some-token", "1"})
+	entries, err := toggl.Entries(TEST_DATE, TEST_DATE)
+
+	assert.Nil(err)
+	assert.Len(entries, 1)
+
+	assert.EqualValues(NO_DESCRIPTION, entries[0].GetDescription())
+	assert.EqualValues(NO_CLIENT, entries[0].GetClient())
+	assert.EqualValues(NO_PROJECT, entries[0].GetProject())
+	assert.EqualValues(1.0, entries[0].GetHours())
 }
 
 func TestClientReturnsErrorOnEmptyAPIResponse(t *testing.T) {
