@@ -56,20 +56,7 @@ func app() *cli.App {
 		Usage:           DESCRIPTION,
 		Before:          onBeforeInvocation,
 		CommandNotFound: commandNotFound,
-		Action:          listAction,
 		Flags: []cli.Flag{
-			&cli.StringFlag{
-				Name:        "since",
-				Value:       time.Now().Add(-time.Hour * 24).Format(DATE_FORMAT_ISO),
-				Usage:       "Start date for searching time entries.",
-				DefaultText: "yesterday",
-			},
-			&cli.StringFlag{
-				Name:        "until",
-				Value:       time.Now().Format(DATE_FORMAT_ISO),
-				Usage:       "End date for searching time entries.",
-				DefaultText: "today",
-			},
 			&cli.BoolFlag{
 				Name:  "no-ansi",
 				Value: false,
@@ -82,9 +69,24 @@ func app() *cli.App {
 				Description: "List time entries in different formats",
 				Flags: []cli.Flag{
 					&cli.StringFlag{
-						Name:  "output",
-						Value: "text",
-						Usage: "Output format for the reporter.",
+						Name:        "since",
+						Aliases:     []string{"s"},
+						Value:       time.Now().Add(-time.Hour * 24).Format(DATE_FORMAT_ISO),
+						Usage:       "Start date for searching time entries.",
+						DefaultText: "yesterday",
+					},
+					&cli.StringFlag{
+						Name:        "until",
+						Aliases:     []string{"u"},
+						Value:       time.Now().Format(DATE_FORMAT_ISO),
+						Usage:       "End date for searching time entries.",
+						DefaultText: "today",
+					},
+					&cli.StringFlag{
+						Name:    "output",
+						Aliases: []string{"o"},
+						Value:   "text",
+						Usage:   "Output format for the reporter.",
 					},
 				},
 				Action: listAction,
