@@ -2,10 +2,8 @@ install:
 	go get -v ./...
 	go mod tidy
 
-clean:
-	rm -rf ./build
-
-build: install clean
+.PHONY: build
+build: install
 	go build -v -o ./build/hours
 
 lint:
