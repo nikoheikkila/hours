@@ -65,8 +65,9 @@ func app() *cli.App {
 		},
 		Commands: []*cli.Command{
 			{
-				Name:        "list",
-				Description: "List time entries in different formats",
+				Name:  "list",
+				HelpName: NAME + " list",
+				Usage: "List time entries in different formats",
 				Flags: []cli.Flag{
 					&cli.StringFlag{
 						Name:        "since",
