@@ -47,14 +47,16 @@ hours list --output json | jq '.'
 
 **Examples:**
 
-Save the output to a file and import to Excel, or wherever you need it.
+Save the output to a file and import to Excel, or wherever you need it. You can also pipe the data to a parser like [_xsv_][xsv] for prettier table formatting and processing.
 
 ```sh
 hours list --output csv
 hours list --output csv > report.csv
+hours list --output csv | xsv table
 ```
 
 [termenv]: https://github.com/muesli/termenv
 [pandoc]: https://pandoc.org/
 [glow]: https://github.com/charmbracelet/glow
 [jq]: https://stedolan.github.io/jq/
+[xsv]: https://github.com/BurntSushi/xsv
